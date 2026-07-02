@@ -1,0 +1,114 @@
+[
+    {
+        "song_name": "再次爱上你",
+        "song_url": "https://www.kugou.com/mixsong/j6aik29.html",
+        "lyrics_data": {
+            "data": {
+                "SSA-HMID": "4d0d2893f79a5c18ec6e5d8d628ca4ce",
+                "is_publish": 1,
+                "privilege": 0,
+                "SSA-CODE": "gz_tx_event_44a0e233cfe3160a24ad09d26997dcd1"
+            },
+            "status": 0,
+            "err_code": 30020
+        }
+    },
+    {
+        "song_name": "兰花指",
+        "song_url": "https://www.kugou.com/mixsong/1gjlvk2d.html",
+        "lyrics_data": {
+            "data": {
+                "SSA-HMID": "4d0d2893f79a5c18ec6e5d8d628ca4ce",
+                "is_publish": 1,
+                "privilege": 0,
+                "SSA-CODE": "gz_tx_event_44a0e233cfe3160a24ad09d26997dcd1"
+            },
+            "status": 0,
+            "err_code": 30020
+        }
+    },
+    {
+        "song_name": "错爱",
+        "song_url": "https://www.kugou.com/mixsong/j5nns9d.html",
+        "lyrics_data": {
+            "data": {
+                "SSA-HMID": "4d0d2893f79a5c18ec6e5d8d628ca4ce",
+                "is_publish": 1,
+                "privilege": 0,
+                "SSA-CODE": "gz_tx_event_44a0e233cfe3160a24ad09d26997dcd1"
+            },
+            "status": 0,
+            "err_code": 30020
+        }
+    },
+    {
+        "song_name": "再次爱上你 (Single Version)",
+        "song_url": "https://www.kugou.com/mixsong/j6oyldb.html",
+        "lyrics_data": {
+            "data": {
+                "SSA-HMID": "4d0d2893f79a5c18ec6e5d8d628ca4ce",
+                "is_publish": 1,
+                "privilege": 0,
+                "SSA-CODE": "gz_tx_event_44a0e233cfe3160a24ad09d26997dcd1"
+            },
+            "status": 0,
+            "err_code": 30020
+        }
+    },
+    {
+        "song_name": "隔壁泰山",
+        "song_url": "https://www.kugou.com/mixsong/1t19nf6a.html",
+        "lyrics_data": {
+            "data": {
+                "SSA-HMID": "4d0d2893f79a5c18ec6e5d8d628ca4ce",
+                "is_publish": 1,
+                "privilege": 0,
+                "SSA-CODE": "gz_tx_event_44a0e233cfe3160a24ad09d26997dcd1"
+            },
+            "status": 0,
+            "err_code": 30020
+        }
+    },
+    {
+        "song_name": "忘记你太难",
+        "song_url": "https://www.kugou.com/mixsong/nzevx12.html",
+        "lyrics_data": {
+            "data": {
+                "SSA-HMID": "4d0d2893f79a5c18ec6e5d8d628ca4ce",
+                "is_publish": 1,
+                "privilege": 0,
+                "SSA-CODE": "gz_tx_event_44a0e233cfe3160a24ad09d26997dcd1"
+            },
+            "status": 0,
+            "err_code": 30020
+        }
+    },
+    {
+        "song_name": "兰花指",
+        "song_url": "https://www.kugou.com/mixsong/251shl1a.html",
+        "lyrics_data": {
+            "data": {
+                "SSA-HMID": "4d0d2893f79a5c18ec6e5d8d628ca4ce",
+                "is_publish": 1,
+                "privilege": 0,
+                "SSA-CODE": "gz_tx_event_44a0e233cfe3160a24ad09d26997dcd1"
+            },
+            "status": 0,
+            "err_code": 30020
+        }
+    },
+    {
+        "song_name": "不求名来名自扬",
+        "song_url": "https://www.kugou.com/mixsong/jso47c6.html",
+        "lyrics_data": {
+            "data": {
+                "SSA-HMID": "4d0d2893f79a5c18ec6e5d8d628ca4ce",
+                "is_publish": 1,
+                "privilege": 0,
+                "SSA-CODE": "gz_tx_event_44a0e233cfe3160a24ad09d26997dcd1"
+            },
+            "status": 0,
+            "err_code": 30020
+        }
+    }
+]
