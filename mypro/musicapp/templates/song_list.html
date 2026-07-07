@@ -1,11 +1,28 @@
-<!DOCTYPE html>
-<html lang="zh">
-    <head>
-        <meta charset="UTF-8">
-        <title>歌曲列表</title>
-    </head>
-    <body>
-        <h1>歌曲列表</h1>
-        
-    </body>
-</html>
+{% extends 'base.html' %}
+{% block title %}歌曲列表 - 音乐网{% endblock %}
+{% block content %}
+<div class="card">
+  <div class="card-header">
+    <span>歌曲列表</span>
+    <span style="font-size:13px;color:#888;font-weight:400;">共 {{ songs.paginator.count }} 首</span>
+  </div>
+  <div class="card-body">
+    {% if songs %}
+      {% for song in songs %}
+      <div class="list-item">
+        <a href="{% url 'song_detail' song.id %}">
+          <img src="{{ song.image.url }}" alt="{{ song.name }}" loading="lazy" onerror="this.style.display='none'">
+          <div class="info">
+            <div class="name">{{ song.name }}</div>
+            <div class="sub">{{ song.singer.name }}</div>
+          </div>
+        </a>
+      </div>
+      {% endfor %}
+    {% else %}
+      <div class="empty">暂无歌曲</div>
+    {% endif %}
+  </div>
+</div>
+{% include 'pagination.html' with items=songs %}
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block title %}搜索结果 - 音乐网{% endblock %}
+{% block content %}
+<div class="card">
+  <div class="card-header">
+    <span>搜索结果</span>
+  </div>
+  <div class="card-body">
+    {% if query %}
+    <div class="search-info">
+      搜索 "<strong>{{ query }}</strong>" 共找到 <strong>{{ total_count }}</strong> 条{{ search_type }}结果，耗时 <strong>{{ elapsed }}</strong> 秒
+    </div>
+    {% else %}
+    <div class="search-info">请输入搜索关键词</div>
+    {% endif %}
+
+    {% if results %}
+      {% if search_type == 'singer' %}
+      <div class="singer-grid">
+        {% for singer in results %}
+        <div class="singer-grid-item">
+          <a href="{% url 'singer_detail' singer.id %}">
+            <img src="{{ singer.image.url }}" alt="{{ singer.name }}" loading="lazy" onerror="this.style.display='none'">
+            <div class="name">{{ singer.name }}</div>
+          </a>
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
+        {% for song in results %}
+        <div class="list-item">
+          <a href="{% url 'song_detail' song.id %}">
+            <img src="{{ song.image.url }}" alt="{{ song.name }}" loading="lazy" onerror="this.style.display='none'">
+            <div class="info">
+              <div class="name">{{ song.name }}</div>
+              <div class="sub">{{ song.singer.name }}</div>
+            </div>
+          </a>
+        </div>
+        {% endfor %}
+      {% endif %}
+    {% else %}
+      {% if query %}
+      <div class="empty">未找到与 "<strong>{{ query }}</strong>" 相关的{{ search_type }}结果</div>
+      {% endif %}
+    {% endif %}
+  </div>
+</div>
+{% if results %}
+  {% include 'pagination.html' with items=results query=query search_type=search_type %}
+{% endif %}
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}歌手列表 - 音乐网{% endblock %}
+{% block content %}
+<div class="card">
+  <div class="card-header">
+    <span>歌手列表</span>
+    <span style="font-size:13px;color:#888;font-weight:400;">共 {{ singers.paginator.count }} 位</span>
+  </div>
+  <div class="card-body">
+    {% if singers %}
+    <div class="singer-grid">
+      {% for singer in singers %}
+      <div class="singer-grid-item">
+        <a href="{% url 'singer_detail' singer.id %}">
+          <img src="{{ singer.image.url }}" alt="{{ singer.name }}" loading="lazy" onerror="this.style.display='none'">
+          <div class="name">{{ singer.name }}</div>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty">暂无歌手</div>
+    {% endif %}
+  </div>
+</div>
+{% include 'pagination.html' with items=singers %}
+{% endblock %}

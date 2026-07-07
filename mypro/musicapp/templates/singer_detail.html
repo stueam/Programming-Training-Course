@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}{{ singer.name }} - 音乐网{% endblock %}
+{% block content %}
+<div class="card">
+  <div class="detail-header">
+    <img src="{{ singer.image.url }}" alt="{{ singer.name }}" onerror="this.style.display='none'">
+    <div class="detail-info">
+      <h1>{{ singer.name }}</h1>
+      <div class="meta">
+        <a href="{{ singer.url }}" class="url-link" target="_blank" rel="noopener noreferrer">查看原歌手页面 &rarr;</a>
+      </div>
+    </div>
+  </div>
+
+  {% if singer.intro %}
+  <div class="section-title">简介</div>
+  <div class="intro-text">{{ singer.intro }}</div>
+  {% endif %}
+
+  <div class="section-title">歌曲 ({{ songs|length }})</div>
+  {% if songs %}
+  <div class="song-grid">
+    {% for song in songs %}
+    <div class="song-card">
+      <a href="{% url 'song_detail' song.id %}">
+        <img src="{{ song.image.url }}" alt="{{ song.name }}" loading="lazy" onerror="this.style.display='none'">
+        <div class="name">{{ song.name }}</div>
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="empty">暂无歌曲</div>
+  {% endif %}
+</div>
+{% endblock %}
