@@ -1,8 +1,38 @@
+import re
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator
 from django.db.models import Q
 from .models import Singer, Song, Comment
 import time
+
+
+def clean_lyrics(text):
+    text = text.lstrip('\ufeff')
+    lines = text.strip().split('\n')
+    result = []
+    meta_pattern = re.compile(
+        r'^((作词|作曲|编曲|制作人|原唱|原词曲|音乐总监|制作总监|混音|母带|录音|和声|吉他|贝斯|键盘|鼓手|钢琴|管风琴|PGM|舞团|灯光|舞台|和声编写|录音制作者|定位制作人|执行音乐总监|音乐团队|官方指定音乐合作伙伴|中文填词|Rap词|改编歌曲|改编歌曲词曲版权代理|OP|SP|出品)|'
+        r'.*[：:])\s*'
+    )
+    copyright_pattern = re.compile(r'[（(【]未经|版权所有|翻[唱录]|授权')
+    lrc_timestamp = re.compile(r'^\[\d{2}:\d{2}\.\d{2,3}\]')
+    for i, line in enumerate(lines):
+        stripped = line.strip()
+        if not stripped:
+            continue
+        clean = lrc_timestamp.sub('', stripped).strip()
+        if not clean:
+            continue
+        if meta_pattern.match(clean):
+            continue
+        if copyright_pattern.search(clean):
+            continue
+        if re.match(r'^[\s\-—_=]+$', clean):
+            continue
+        if i < 3 and ' - ' in clean and len(clean) < 60:
+            continue
+        result.append(clean)
+    return '\n'.join(result)
 
 
 def get_page_range(page_obj, window=1, edge=2):
@@ -66,7 +96,8 @@ def song_detail(request, song_id):
         if content:
             Comment.objects.create(song=song, content=content)
     comments = song.comment.all().order_by('-release_time')
-    return render(request, 'song_detail.html', {'song': song, 'comments': comments})
+    lyrics = clean_lyrics(song.lyrics) if song.lyrics else ''
+    return render(request, 'song_detail.html', {'song': song, 'comments': comments, 'lyrics': lyrics})
 
 
 def singer_list(request):

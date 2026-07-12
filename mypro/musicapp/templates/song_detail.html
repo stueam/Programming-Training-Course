@@ -8,25 +8,27 @@
     </ol>
 </nav>
 
-<div class="card shadow-sm mb-4">
-    <div class="card-body">
-        <div class="row align-items-center">
-            <div class="col-md-3 text-center mb-3 mb-md-0">
+<div class="song-info-bar card shadow-sm mb-4">
+    <div class="card-body py-3">
+        <div class="row align-items-center g-2">
+            <div class="col-auto">
                 {% if song.image %}
-                <img src="{{ song.image }}" class="img-fluid rounded" alt="{{ song.name }}" style="max-height: 200px; object-fit: cover;">
+                <img src="{{ song.image }}" class="rounded" alt="{{ song.name }}" style="width: 64px; height: 64px; object-fit: cover;">
                 {% else %}
-                <div class="bg-secondary bg-opacity-10 p-4 rounded d-flex align-items-center justify-content-center" style="min-height: 160px;">
-                    <i class="bi bi-disc fs-1 text-muted" style="opacity: 0.4;"></i>
+                <div class="bg-secondary bg-opacity-10 rounded d-flex align-items-center justify-content-center" style="width: 64px; height: 64px;">
+                    <i class="bi bi-disc fs-3 text-muted" style="opacity: 0.4;"></i>
                 </div>
                 {% endif %}
             </div>
-            <div class="col-md-9">
-                <h3 class="fw-bold">{{ song.name }}</h3>
-                <p class="mb-2">
+            <div class="col">
+                <h5 class="fw-bold mb-0">{{ song.name }}</h5>
+                <p class="mb-0 small">
                     <i class="bi bi-person" style="color: var(--primary);"></i>
                     <a href="{% url 'singer_detail' song.singer.id %}" class="fw-medium">{{ song.singer.name }}</a>
                 </p>
-                <a href="{{ song.url }}" target="_blank" class="btn btn-sm btn-primary rounded-pill">
+            </div>
+            <div class="col-auto">
+                <a href="{{ song.url }}" target="_blank" class="btn btn-sm btn-outline-primary rounded-pill">
                     <i class="bi bi-link-45deg me-1"></i>原链接
                 </a>
             </div>
@@ -34,56 +36,68 @@
     </div>
 </div>
 
-<div class="card shadow-sm mb-4">
-    <div class="card-header bg-transparent fw-semibold" style="border-left: 4px solid var(--primary);">
-        <i class="bi bi-file-text me-1" style="color: var(--primary);"></i> 歌词
-    </div>
-    <div class="card-body lyrics-box">
-        <pre class="mb-0" style="white-space: pre-wrap; font-family: inherit; font-size: 0.9rem; line-height: 1.8;">{{ song.lyrics }}</pre>
-    </div>
-</div>
-
-<div class="card shadow-sm">
-    <div class="card-header bg-transparent fw-semibold" style="border-left: 4px solid var(--accent);">
-        <i class="bi bi-chat-dots me-1" style="color: var(--accent);"></i> 评论
-        <span class="badge badge-gradient ms-2">{{ comments|length }}</span>
-    </div>
-    <div class="card-body">
-        <form method="POST" action="{% url 'song_detail' song.id %}" class="mb-4">
-            {% csrf_token %}
-            <div class="mb-2">
-                <textarea name="content" class="form-control" rows="2" placeholder="写下你的评论..." style="border-radius: 12px;" required></textarea>
+<div class="row g-4">
+    <div class="col-lg-5 order-lg-1">
+        <div class="card shadow-sm">
+            <div class="card-header bg-transparent fw-semibold" style="border-left: 4px solid var(--accent);">
+                <i class="bi bi-chat-dots me-1" style="color: var(--accent);"></i> 评论
+                <span class="badge bg-secondary ms-2">{{ comments|length }}</span>
             </div>
-            <button type="submit" class="btn btn-primary btn-sm rounded-pill">
-                <i class="bi bi-send me-1"></i>发表评论
-            </button>
-        </form>
-        {% for comment in comments %}
-        <div class="d-flex align-items-start border-bottom pb-3 mb-3">
-            <div class="comment-avatar me-2 flex-shrink-0">
-                {{ forloop.counter }}
-            </div>
-            <div class="flex-grow-1">
-                <div class="d-flex justify-content-between align-items-center">
-                    <small class="text-muted">
-                        <i class="bi bi-clock me-1"></i>{{ comment.release_time|date:"Y-m-d H:i" }}
-                    </small>
-                    <form method="POST" action="{% url 'delete_comment' comment.id %}" onsubmit="return confirm('确定删除？')" class="m-0">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-sm btn-outline-danger rounded-pill" style="font-size: 0.75rem;">
-                            <i class="bi bi-trash me-1"></i>删除
-                        </button>
-                    </form>
+            <div class="card-body">
+                <form method="POST" action="{% url 'song_detail' song.id %}" class="mb-4">
+                    {% csrf_token %}
+                    <div class="mb-2">
+                        <textarea name="content" class="form-control" rows="2" placeholder="写下你的评论..." style="border-radius: 12px;" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-sm rounded-pill">
+                        <i class="bi bi-send me-1"></i>发表评论
+                    </button>
+                </form>
+                {% for comment in comments %}
+                <div class="d-flex align-items-start border-bottom pb-3 mb-3">
+                    <div class="comment-avatar me-2 flex-shrink-0">
+                        {{ forloop.counter }}
+                    </div>
+                    <div class="flex-grow-1">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <small class="text-muted">
+                                <i class="bi bi-clock me-1"></i>{{ comment.release_time|date:"Y-m-d H:i" }}
+                            </small>
+                            <form method="POST" action="{% url 'delete_comment' comment.id %}" onsubmit="return confirm('确定删除？')" class="m-0">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-sm btn-outline-danger rounded-pill" style="font-size: 0.75rem;">
+                                    <i class="bi bi-trash me-1"></i>删除
+                                </button>
+                            </form>
+                        </div>
+                        <p class="mb-0 mt-1">{{ comment.content }}</p>
+                    </div>
                 </div>
-                <p class="mb-0 mt-1">{{ comment.content }}</p>
+                {% empty %}
+                <div class="text-center py-4 empty-state">
+                    <i class="bi bi-chat-dots fs-1" style="color: var(--primary); opacity: 0.3;"></i>
+                    <p class="text-muted mt-2 mb-0">暂无评论，来写第一条吧</p>
+                </div>
+                {% endfor %}
             </div>
         </div>
-        {% empty %}
-        <div class="text-center py-4 empty-state">
-            <i class="bi bi-chat-dots fs-1" style="color: var(--primary); opacity: 0.3;"></i>
-            <p class="text-muted mt-2 mb-0">暂无评论，来写第一条吧</p>
+    </div>
+    <div class="col-lg-7 order-lg-2">
+        <div class="card shadow-sm h-100">
+            <div class="card-header bg-transparent fw-semibold" style="border-left: 4px solid var(--primary);">
+                <i class="bi bi-file-text me-1" style="color: var(--primary);"></i> 歌词
+            </div>
+            <div class="card-body lyrics-scroll">
+                {% if lyrics %}
+                <pre class="mb-0">{{ lyrics }}</pre>
+                {% else %}
+                <div class="text-center py-5 empty-state">
+                    <i class="bi bi-file-text fs-1" style="color: var(--primary); opacity: 0.3;"></i>
+                    <p class="text-muted mt-2 mb-0">暂无歌词</p>
+                </div>
+                {% endif %}
+            </div>
         </div>
-        {% endfor %}
     </div>
 </div>
 {% endblock %}
