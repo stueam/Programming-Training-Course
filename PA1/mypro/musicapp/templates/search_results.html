@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% block title %}搜索结果 - 酷猫音乐{% endblock %}
+{% block content %}
+<nav aria-label="breadcrumb" class="mb-3">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'song_list' %}">首页</a></li>
+        <li class="breadcrumb-item active">搜索</li>
+    </ol>
+</nav>
+
+<div class="page-header">
+    <div class="row align-items-center">
+        <div class="col">
+            <h3 class="mb-0 fw-bold"><i class="bi bi-search me-2" style="color: var(--primary);"></i>搜索结果</h3>
+        </div>
+    </div>
+    <form class="row g-2 mt-3" action="{% url 'search' %}" method="GET">
+        <div class="col-auto">
+            <select name="type" class="form-select rounded-pill" style="border: 2px solid var(--primary);">
+                <option value="song" {% if search_type == 'song' %}selected{% endif %}>歌曲</option>
+                <option value="singer" {% if search_type == 'singer' %}selected{% endif %}>歌手</option>
+            </select>
+        </div>
+        <div class="col">
+            <input class="form-control search-box rounded-pill" type="search" name="q" value="{{ query }}" placeholder="输入关键词...">
+        </div>
+        <div class="col-auto">
+            <button class="btn btn-primary rounded-pill px-4" type="submit"><i class="bi bi-search me-1"></i>搜索</button>
+        </div>
+    </form>
+</div>
+
+{% if query %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <p class="text-muted small mb-0">
+        搜索 <strong>"{{ query }}"</strong> 共找到 <span class="fw-semibold" style="color: var(--primary);">{{ total_count }}</span> 条结果
+    </p>
+    <small class="text-muted">耗时 {{ elapsed }} 秒</small>
+</div>
+{% endif %}
+
+<div class="row">
+    {% if search_type == 'song' %}
+        {% for song in results %}
+        <div class="col-md-6 col-lg-4 mb-3">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h6 class="card-title fw-semibold text-truncate">{{ song.name }}</h6>
+                    <p class="card-text small text-muted text-truncate">
+                        <i class="bi bi-person me-1"></i>{{ song.singer.name }}
+                    </p>
+                    <a href="{% url 'song_detail' song.id %}" class="btn btn-sm btn-outline-primary rounded-pill">
+                        <i class="bi bi-play-circle me-1"></i>查看详情
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center py-5 empty-state">
+            <i class="bi bi-emoji-frown fs-1" style="color: var(--primary); opacity: 0.3;"></i>
+            <p class="text-muted mt-2">未找到相关歌曲</p>
+        </div>
+        {% endfor %}
+    {% else %}
+        {% for singer in results %}
+        <div class="col-md-4 col-lg-3 mb-3">
+            <div class="card singer-card text-center h-100 shadow-sm">
+                <div class="card-body">
+                    <div class="avatar-wrapper mb-3">
+                        {% if singer.image %}
+                        <img src="{{ singer.image }}" class="rounded-circle" width="80" height="80" alt="{{ singer.name }}" style="object-fit: cover; border: 3px solid #fff;">
+                        {% else %}
+                        <div class="rounded-circle bg-secondary bg-opacity-10 d-flex align-items-center justify-content-center mx-auto" style="width: 80px; height: 80px; border: 3px solid #fff;">
+                            <i class="bi bi-person fs-1 text-muted" style="opacity: 0.4;"></i>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <h6 class="card-title fw-semibold">{{ singer.name }}</h6>
+                    <p class="card-text small text-muted text-truncate">{{ singer.intro|truncatechars:40 }}</p>
+                    <a href="{% url 'singer_detail' singer.id %}" class="btn btn-sm btn-outline-primary rounded-pill">
+                        <i class="bi bi-person me-1"></i>查看详情
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center py-5 empty-state">
+            <i class="bi bi-emoji-frown fs-1" style="color: var(--primary); opacity: 0.3;"></i>
+            <p class="text-muted mt-2">未找到相关歌手</p>
+        </div>
+        {% endfor %}
+    {% endif %}
+</div>
+
+{% include 'pagination.html' with page_obj=results page_range=page_range extra_params=extra_params hidden_inputs=hidden_inputs %}
+{% endblock %}
